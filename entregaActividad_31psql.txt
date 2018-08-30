@@ -1,0 +1,98 @@
+1- Crear una base de datos llamada call_list
+
+CREATE DATABASE call_list;
+
+2- En la base de datos recien creada, crear la tabla users con los campos id (clave
+primaria), first_name, email
+
+CREATE TABLE users (id SERIAL PRIMARY KEY,first_name VARCHAR(10),email VARCHAR(10));
+
+3- Ingresar un usuario, llamado Carlos (el resto de los datos deben inventarlos).
+
+insert into users (first_name, email) values ('carlos','car@c.cl');
+
+4-Ingresar un usuario, llamada Laura (el resto de los datos deben inventarlos).
+
+INSERT INTO users (first_name, email) values('laura','lau@cl.cl');
+
+5- Crear una tabla llamada calls con los campos id (clave primaria), phone, date, user_id (foreign key relacionado a users).
+
+CREATE TABLE calls (id SERIAL PRIMARY KEY,phone VARCHAR(10),date_user VARCHAR(10), user_id SERIAL REFERENCES users(id));
+
+6- Agregar a la tabla users el campo last_name
+
+ALTER TABLE users ADD COLUMN last_name VARCHAR(10);
+
+7- Ingresar el apellido del usuario Carlos.
+
+UPDATE users SET last_name='soto' where id=1;
+
+8- Ingresar el apellido del usuario Laura
+update users set last_name='perez' where id=2;
+
+UPDATE 1
+ select * from users;
+ id | first_name |   email   | last_name 
+----+------------+-----------+-----------
+  1 | carlos     | car@c.cl  | soto
+  2 | laura      | lau@cl.cl | perez
+(2 filas)
+
+9- Ingresar 6 llamadas asociadas al usuario Laura.
+alter table calls rename column date_user to date;
+
+INSERT INTO calls (phone,date,user_id) values('12345678','1-1-2018',2);
+INSERT INTO calls (phone,date,user_id) values('10101010','1-1-2018',2);
+INSERT INTO calls (phone,date,user_id) values('78787878','1-1-2018',2);
+INSERT INTO calls (phone,date,user_id) values('33333333','1-1-2018',2);
+INSERT INTO calls (phone,date,user_id) values('44444444','1-1-2018',2);
+INSERT INTO calls (phone,date,user_id) values('11111111','1-1-2018',2);
+
+10- Ingresar 4 llamadas asociadas al usuario Carlos
+INSERT INTO calls (phone,date,user_id) values('99999999','1-1-2018',1);
+INSERT INTO calls (phone,date,user_id) values('33333333','5-3-2018',1);
+INSERT INTO calls (phone,date,user_id) values('89898976','21-8-2018',1);
+INSERT INTO calls (phone,date,user_id) values('22222222','22-8-2018',1);
+
+11. Crear un nuevo usuario.
+insert into users (first_name, email, last_name) values ('pedro','pe@h.com', 'tapia');
+
+
+12- Seleccionar la cantidad de llamados de cada uno de los usuarios (nombre de usuario y cantidad de llamadas).
+
+select * from calls inner join users on (calls.user_id=users.id);
+ id |  phone   |   date    | user_id | id | first_name |   email   | last_name 
+----+----------+-----------+---------+----+------------+-----------+-----------
+  1 | 12345678 | 1-1-2018  |       2 |  2 | laura      | lau@cl.cl | perez
+  2 | 87654321 | 1-1-2018  |       2 |  2 | laura      | lau@cl.cl | perez
+  3 | 10101010 | 1-1-2018  |       2 |  2 | laura      | lau@cl.cl | perez
+  4 | 78787878 | 1-1-2018  |       2 |  2 | laura      | lau@cl.cl | perez
+  5 | 33333333 | 1-1-2018  |       2 |  2 | laura      | lau@cl.cl | perez
+  6 | 44444444 | 1-1-2018  |       2 |  2 | laura      | lau@cl.cl | perez
+  7 | 99999999 | 1-1-2018  |       1 |  1 | carlos     | car@c.cl  | soto
+  8 | 55555555 | 1-3-2018  |       1 |  1 | carlos     | car@c.cl  | soto
+  9 | 33333333 | 5-3-2018  |       1 |  1 | carlos     | car@c.cl  | soto
+ 10 | 89898976 | 21-8-2018 |       1 |  1 | carlos     | car@c.cl  | soto
+(10 filas)
+
+
+ count | first_name 
+-------+------------
+     6 | laura
+     4 | carlos
+(2 filas)
+
+13-Seleccionar los llamados del usuario llamado Carlos ordenados por fecha en orden descendente.
+
+
+
+
+
+
+
+
+
+
+
+
+
